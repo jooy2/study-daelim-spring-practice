@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<body>
+<div>
+    <div>
+        <h1>회원가입</h1>
+    </div>
+    <h3>회원정보입력</h3>
+    <form id="signUpForm" th:object="${userVO}">
+        <table>
+            <tr>
+                <th>이메일</th>
+                <td>
+                    <input type="text" name="email" maxlength="30"/>
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td><input type="password" name="password" maxlength="20" /></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td><input type="text" name="name" maxlength="20" /></td>
+            </tr>
+        </table>
+        <input type="button" value="Sing Up" />
+    </form>
+    </div>
+</body>
+</html>
