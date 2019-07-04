@@ -12,6 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SignController {
 
     /**
+     * 로그인 폼
+     * @param userVO
+     * @return
+     */
+    @GetMapping("/sign-in")
+    public String signInForm(@ModelAttribute UserVO userVO) {
+        return "sign/sign-in";
+    }
+
+    /**
      * 회원가입폼
      * @param userVO
      * @return
@@ -21,17 +31,11 @@ public class SignController {
         return "sign/sign-up";
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping("/sign-up")
     public String signInFormExecute(@ModelAttribute UserVO userVO) {
-        return "sign/signup";
-    }
-    /**
-     * 로그인 폼
-     * @param userVO
-     * @return
-     */
-    @GetMapping("/sign-in")
-    public String signInForm(@ModelAttribute UserVO userVO) {
-        return "sign/sign-in";
+
+        System.out.println(userVO.toString());
+
+        return "sign/sign-up";
     }
 }
