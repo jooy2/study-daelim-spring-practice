@@ -4,6 +4,7 @@ import kr.ac.daelim.summer.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -20,6 +21,10 @@ public class SignController {
         return "sign/sign-up";
     }
 
+    @PostMapping("/sign-in")
+    public String signInFormExecute(@ModelAttribute UserVO userVO) {
+        return "sign/signup";
+    }
     /**
      * 로그인 폼
      * @param userVO

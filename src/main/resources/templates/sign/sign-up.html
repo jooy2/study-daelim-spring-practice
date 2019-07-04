@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name=“viewport” content=“width=device-width, initial-scale=1">
+    <link rel=“stylesheet” href=“//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css”>
     <title>Sign Up</title>
 </head>
 <body>
@@ -28,8 +30,19 @@
                 <td><input type="text" name="name" maxlength="20" /></td>
             </tr>
         </table>
-        <input type="button" value="Sing Up" />
+        <input type="button" value="Sing Up" onclick="signUp();" />
     </form>
     </div>
+    <script src=“/js/jquery-1.12.4.min.js”></script>
+    <script src=“//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js”></script>
+
+    <script type="text/javascript">
+        var signUp = function() {
+            $('#signUpForm')
+                .attr('action', '/sign/sign-up')
+                .attr('method', 'post')
+                .submit();
+        };
+    </script>
 </body>
 </html>
