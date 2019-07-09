@@ -12,6 +12,7 @@ public interface UserMapper {
      * @param userVO
      */
     void insertUser(UserVO userVO);
+
     /**
      * 로그인
      */

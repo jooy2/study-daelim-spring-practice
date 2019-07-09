@@ -24,10 +24,12 @@
             <tr>
                 <th>비밀번호</th>
                 <td><input type="password" name="password" maxlength="20" /></td>
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
             </tr>
             <tr>
                 <th>이름</th>
                 <td><input type="text" name="name" maxlength="20" /></td>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
             </tr>
         </table>
         <input type="button" value="Sign Up" onclick="signUp();" />

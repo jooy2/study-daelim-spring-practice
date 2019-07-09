@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
     public void insertUser(UserVO userVO) {
         this.userMapper.insertUser(userVO);
     }
+
     @Override
     public UserVO selectUser(UserVO userVO) {
         return this.userMapper.selectUser(userVO);
