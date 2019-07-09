@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+</head>
+<body>
+<div>
+    <div>
+        <h1>로그인</h1>
+    </div>
+    <form id="signInForm" th:object="${userVO}">
+        <table>
+            <tr>
+                <th>이메일</th>
+                <td><input type="text" name="email" maxlength="30"/></td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td><input type="password" name="password" maxlength="20" /></td>
+            </tr>
+        </table>
+        <input type="button" value="Sing In"/>
+    </form>
+</div>
+</body>
+</html>

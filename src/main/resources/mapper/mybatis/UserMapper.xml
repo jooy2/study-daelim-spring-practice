@@ -5,12 +5,11 @@
     <insert id="insertUser"
             parameterType="kr.ac.daelim.summer.vo.UserVO"
             useGeneratedKeys="true"
-            keyProperty="user_num"
-    >
-    INSERT INTO
-        user (email, password, name, reg_date)
-    VALUES (
-        #{email}, password(#{password}), #{name}, now()
-    )
-</insert>
+            keyProperty="user_num">
+        INSERT INTO
+            user (email, password, name, reg_date)
+        VALUES (
+            #{email}, password(#{password}), #{name}, now()
+        )
+    </insert>
 </mapper>
