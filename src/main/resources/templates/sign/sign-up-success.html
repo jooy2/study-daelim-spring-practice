@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div class="container">
+    <div class="page-header">
+        <h1>회원가입 완료</h1>
+    </div>
+    <h3>등록된 회원 정보</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>회원번호</th>
+            <td><p class="text-success" th:text="${userVO.user_num}"></p></td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td><p class="text-success" th:text="${userVO.email}"></p></td>
+        </tr>
+        <tr>
+            <th>비밀번호</th>
+            <td><p class="text-success" th:text="${userVO.password}"></p></td>
+        </tr><tr>
+        <th>이름</th>
+        <td><p class="text-success" th:text="${userVO.name}"></p></td>
+    </tr>
+    </table>
+</div>
+<script src="/js/jquery-1.12.4.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+<script type="text/javascript">
+</script>
 </body>
 </html>

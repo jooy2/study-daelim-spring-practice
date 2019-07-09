@@ -12,4 +12,17 @@
             #{email}, password(#{password}), #{name}, now()
         )
     </insert>
+
+    <select id="selectUser"
+            parameterType="kr.ac.daelim.summer.vo.UserVO"
+            resultType="kr.ac.daelim.summer.vo.UserVO">
+        SELECT
+            user_num, email, password, name, reg_date
+        FROM user
+        WHERE
+            email = #{email}
+          AND password = password(#{password})
+        ORDER BY user_num DESC
+        LIMIT 1
+    </select>
 </mapper>

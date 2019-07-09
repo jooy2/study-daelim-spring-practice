@@ -2,26 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <title>Sign In</title>
 </head>
 <body>
-<div>
-    <div>
-        <h1>로그인</h1>
+    <div class="container">
+        <div class="page-header">
+            <h1>로그인</h1>
+        </div>
+        <form id="signInForm" th:object="${userVO}">
+            <table class="table table-striped">
+                <tr>
+                    <th>이메일</th>
+                    <td>
+                        <input type="text" class="form-control" name="email" maxlength="30" th:value="*{email}"/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td>
+                        <input type="password" class="form-control" name="password" maxlength="20" />
+                        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    </td>
+                </tr>
+            </table>
+
+            <input type="button" value="Sign In" class="btn btn-primary" onclick="signIn();"/>
+
+            <!-- DAY3 -->
+                <img src="//developers.google.com/identity/images/btn_google_signin_dark_normal_web.png?hl=ko"
+                     class="googleLoginBtn" height="38" />
+            <!-- DAY3 -->
+
+        </form>
     </div>
-    <form id="signInForm" th:object="${userVO}">
-        <table>
-            <tr>
-                <th>이메일</th>
-                <td><input type="text" name="email" maxlength="30"/></td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td><input type="password" name="password" maxlength="20" /></td>
-            </tr>
-        </table>
-        <input type="button" value="Sing In"/>
-    </form>
-</div>
+
+
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" th:inline="javascript">
+        /**
+         * Google Login Button
+         */
+        $(document).ready(function(){
+            var googleLoginUrl = /*[[${google_url}]]*/
+            $('.googleLoginBtn')
+                .css('cursor','pointer')
+                .click(function(){
+                window.open(googleLoginUrl, "popupWindow", "width=400, height=600, scrollbars=yes");
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        var signIn = function(){
+            $('#signInForm')
+                .attr('action','/sign/sign-in')
+                .attr('method','post')
+                .submit();
+        };
+    </script>
+
+    <script type="text/javascript" th:inline="javascript">
+        /**
+         * 로그인 오류 메시지 출력
+         */
+        var message = /*[[${#strings.isEmpty(message)?'':message}]]*/;
+        if(message!=''){
+            alert(message);
+        }
+    </script>
+
 </body>
 </html>
