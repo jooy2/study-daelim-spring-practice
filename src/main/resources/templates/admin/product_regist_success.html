@@ -22,6 +22,14 @@
                 <td th:text="${productVO.name}"></td>
             </tr>
             <tr>
+                <th>상품 이미지</th>
+                <td>
+                    <div th:each="image:${productVO.fileVOList}">
+                        <img th:src="${image.web_path}" width="200" height="200"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <th>가격</th>
                 <td th:text="${productVO.price}"></td>
             </tr>

@@ -54,21 +54,35 @@ public class ProductServiceImpl implements ProductService {
                 newFileName = UUID.randomUUID().toString();
 
                 // 신규 파일명 정의
+                fileVO.setProduct_num(productVO.getProduct_num());
                 fileVO.setFile_name(newFileName + "." + fileExt);
                 fileVO.setOriginal_name(image.getOriginalFilename());
                 fileVO.setFile_size(image.getSize());
 
-                fileVO.setLocal_path(localpath + File.pathSeparator + newFileName);
+                fileVO.setLocal_path(localpath + File.separator + newFileName);
                 fileVO.setWeb_path(webpath + "/" + newFileName);
 
                 fileVOList.add(fileVO);
 
                 try {
+                    File localPathDirectory = new File(localpath);
+                    if (!localPathDirectory.exists()) {
+                        localPathDirectory.mkdirs();
+                    }
+
                     image.transferTo(new File(fileVO.getLocal_path()));
                 } catch (IOException ioe) {
                     log.error("파일 등록 중 오류가 발생했습니다.", ioe);
                 }
+
+                log.debug("등록 요청한 파일 상세 내용" + fileVO);
             }
+        }
+
+        productVO.setFileVOList(fileVOList);
+        // 2. 등록한 상품 정보와 연계해서 파일정보 등록
+        for (FileVO file:fileVOList) {
+            this.productMapper.insertFile(file);
         }
 
         return productVO;
