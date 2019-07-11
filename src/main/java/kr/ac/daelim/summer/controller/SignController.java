@@ -6,11 +6,9 @@ import kr.ac.daelim.summer.vo.SignUpValidator;
 import kr.ac.daelim.summer.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
@@ -35,9 +33,9 @@ import javax.servlet.http.HttpSession;
 import java.util.Base64;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/sign")
-@Slf4j
 public class SignController {
 
     @Autowired
@@ -55,55 +53,44 @@ public class SignController {
     @Autowired
     private OAuth2Parameters googleOAuth2Parameters;
 
+    @Value("${social.google.clientId}")
+    private String clientIdGoogleSocial;
+
+    @Value("${social.google.clientSecret}")
+    private String clientSecretGoogleSocial;
+
+
     /**
-     * 로그인 폼
+     * 회원가입폼
+     * @param userVO
+     * @return
+     */
+
+    @GetMapping("/sign-up")
+    public String signUpForm(@ModelAttribute UserVO userVO) { return "sign/sign-up"; }
+
+    /**
+     * 로그인폼
      * @param userVO
      * @return
      */
     @GetMapping("/sign-in")
-    public String signInForm(Model model
-            ,@ModelAttribute UserVO userVO){
+    public String signInForm(Model model, @ModelAttribute UserVO userVO) {
+
         // DAY3 - Google login
         /**
          * 구글code 발행
          */
-        OAuth2Operations oauthOperations
-                = googleConnectionFactory.getOAuthOperations();
+        OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+
         /**
          * 로그인페이지 이동 url생성
          */
         String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
         model.addAttribute("google_url", url);
-
         // DAY3 - Google login
+
         return "sign/sign-in";
-    }
-
-    @PostMapping("/sign-in")
-    public String signInFormExecute(
-            @ModelAttribute UserVO userVO
-            , Model model
-            , BindingResult bindingResult
-            , HttpServletRequest request) {
-
-        UserVO loginUserVO = this.userService.selectUser(userVO);
-
-        // 로그인 정보가 없는 경우
-        if (loginUserVO == null) {
-            // TODO 메시지 처리 후 로그인 폼으로 다시 이동
-            model.addAttribute("message",
-                    messageSource.getMessage("error.login", null, null));
-            return "sign/sign-in";
-        }
-        else {
-
-            // 로그인 세션 생성
-            HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("userVO", loginUserVO);
-
-            // 로그인 결과 화면으로 forward
-            return "sign/sign-in-success";
-        }
     }
 
     /**
@@ -164,22 +151,28 @@ public class SignController {
         return "sign/sign-in-success";
     }
 
-    /**
-     * 회원가입폼
-     * @param userVO
-     * @return
-     */
-    @GetMapping("/sign-up")
-    public String signUpForm(@ModelAttribute UserVO userVO) {
-        return "sign/sign-up";
+    @PostMapping("/sign-in")
+    public String signInFormExecute(@ModelAttribute UserVO userVO, Model model, BindingResult bindingResult, HttpServletRequest request) {
+        UserVO loginUserVO = this.userService.selectUser(userVO);
+
+        // 로그인 정보가 없는 경우
+        if (loginUserVO == null) {
+            // todo 메세지 처리 후 로그인 폼으로 다시 이동
+            model.addAttribute("message", messageSource.getMessage("error.login", null, null));
+            return "sign/sign-in";
+
+        } else {
+            // 로그인 세션 생성
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("userVO", loginUserVO);
+
+            // 로그인 결과 화면으로 forward
+            return "sign/sign-in-success";
+        }
     }
 
     @PostMapping("/sign-up")
-    public String signUpFormExecute(
-            Model model
-            , @ModelAttribute UserVO userVO
-            , BindingResult bindingResult
-            , HttpServletRequest request) {
+    public String signUpFormExecute(Model model, @ModelAttribute UserVO userVO, BindingResult bindingResult, HttpServletRequest request) {
 
         System.out.println(userVO.toString());
 
@@ -187,11 +180,13 @@ public class SignController {
         signUpValidator.validate(userVO, bindingResult);
 
         if (bindingResult.hasErrors()) {
+
             model.addAttribute(signUpValidator);
             return "sign/sign-up";
+
         }
 
-        // welcome mail
+        // welcome email
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(userVO.getEmail());
 
@@ -205,7 +200,7 @@ public class SignController {
          */
         this.userService.insertUser(userVO);
 
-        // 새로고침 시 데이터 중복 등록 방지하기 위해 redirect 처리
+        //새로고침시 데이터 중복 등록 방지하기 위해 redirect 처리
         FlashMap flashMap = RequestContextUtils.getOutputFlashMap(request);
         flashMap.put("userVO", userVO);
 
@@ -220,11 +215,10 @@ public class SignController {
      */
     @RequestMapping("/sign-up-success")
     public String signUpSuccess(Model model, HttpServletRequest request) {
-
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
-        // 새로고침 한 경우 flashMap 이 null 입니다.
-        if (flashMap != null) {
+        // 새로고침 한 경우 flashMap 이 null 입니다
+        if (flashMap!=null) {
             model.addAttribute("userVO", flashMap.get("userVO"));
             return "sign/sign-up-success";
         }

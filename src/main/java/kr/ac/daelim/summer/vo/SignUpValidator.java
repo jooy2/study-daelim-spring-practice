@@ -13,6 +13,16 @@ public class SignUpValidator implements Validator {
         return UserVO.class.isAssignableFrom(aClass);
     }
 
+    private boolean ifValidEmail(String email) {
+        // 정규 표현식 사용
+        if (true) {
+
+        } else {
+
+        }
+        return false;
+    }
+
     @Override
     public void validate(Object o, Errors errors) {
 

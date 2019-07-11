@@ -2,8 +2,6 @@ package kr.ac.daelim.summer.service;
 
 import kr.ac.daelim.summer.vo.UserVO;
 
-import java.util.List;
-
 public interface UserService {
 
     /**
@@ -18,6 +16,4 @@ public interface UserService {
      * @return
      */
     UserVO selectUser(UserVO userVO);
-
-    //List<UserVO> selectUser(UserVO userVO);
 }

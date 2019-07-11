@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <title>Sign In</title>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>상품 정보</h1>
+    </div>
+    <form id="productForm" method="post">
+        <table class="table table-striped">
+            <tr>
+                <th>상품 번호</th>
+                <td th:text="${productVO.product_num}"></td>
+            </tr>
+            <tr>
+                <th>상품명</th>
+                <td th:text="${productVO.name}"></td>
+            </tr>
+            <tr>
+                <th>가격</th>
+                <td th:text="${productVO.price}"></td>
+            </tr>
+            <tr>
+                <th>상세정보</th>
+                <td th:text="${productVO.product_info}"></td>
+            </tr>
+        </table>
+
+        <!-- DAY3 -->
+        <img src="//developers.google.com/identity/images/btn_google_signin_dark_normal_web.png?hl=ko"
+             class="googleLoginBtn" height="38" />
+        <!-- DAY3 -->
+    </form>
+</div>
+
+<script src="/js/jquery-1.12.4.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+</script>
+
+</body>
+</html>

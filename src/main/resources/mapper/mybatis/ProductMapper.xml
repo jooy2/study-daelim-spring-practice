@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.daelim.summer.mapper.ProductMapper">
+
+    <!-- 상품 등록 -->
+    <insert id="insertProduct"
+    parameterType="kr.ac.daelim.summer.vo.ProductVO"
+    useGeneratedKeys="true"
+    keyProperty="product_num">
+        <![CDATA[
+            INSERT INTO product (
+                name, product_info, price
+            ) VALUES (
+              #{name}, #{product_info}, #{price}
+            )
+        ]]>
+    </insert>
+
+    <!-- 상품 이미지 등록 -->
+    <insert id="insertFile"
+            parameterType="kr.ac.daelim.summer.vo.FileVO"
+            useGeneratedKeys="true"
+            keyProperty="file_num">
+        <![CDATA[
+            INSERT INTO file (
+                product_num, original_name, file_name,
+                file_size, local_path, web_path
+            ) VALUES (
+                #{product_num}, #{original_name}, #{file_name},
+                #{file_size}, #{local_path}, #{web_path}
+            )
+        ]]>
+    </insert>
+</mapper>
